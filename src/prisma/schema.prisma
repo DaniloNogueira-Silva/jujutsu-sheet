@@ -17,16 +17,16 @@ model User {
 
 model Personagem {
   personagemId         Int                    @id @default(autoincrement())
-  nome                 String
-  nivel                Int
-  maestria             String
-  origem               String
-  especializacao       String
-  tecnica              String
+  nome                 String?
+  nivel                Int?
+  maestria             Int?
+  origem               String?
+  especializacao       String?
+  tecnica              String?
   jogador              User                   @relation(fields: [userId], references: [id])
   userId               Int
-  campanha             String
-  grau                 Int
+  campanha             String?
+  grau                 Int?
   atributos            Atributos[]
   pericias             Pericias[]
   status               Status[]
@@ -66,7 +66,7 @@ model Pericias {
   nome           String
   atributo       String
   maestria       Boolean
-  especializacao String
+  especializacao Boolean
   total          Int
 }
 
@@ -125,22 +125,22 @@ model DadosPersonagem {
   dadosPersonagemId     Int        @id @default(autoincrement())
   personagem            Personagem @relation(fields: [dadosPersonagemId], references: [personagemId])
   personagemId          Int
-  aparencia             String
-  idade                 Int
-  altura                Float
-  peso                  Float
-  genero                String
-  cabelos               String
-  olhos                 String
-  pele                  String
-  aura                  String
-  roupas                String
-  tamanho               String
-  marcas                String
-  tracosDePersonalidade String
-  ideais                String
-  ligacoes              String
-  defeitos              String
+  aparencia             String?
+  idade                 Int?
+  altura                Float?
+  peso                  Float?
+  genero                String?
+  cabelos               String?
+  olhos                 String?
+  pele                  String?
+  aura                  String?
+  roupas                String?
+  tamanho               String?
+  marcas                String?
+  tracosDePersonalidade String?
+  ideais                String?
+  ligacoes              String?
+  defeitos              String?
 }
 
 model PerfilAmaldicoado {
@@ -148,7 +148,7 @@ model PerfilAmaldicoado {
   personagem            Personagem @relation(fields: [perfilAmaldicoadoId], references: [personagemId])
   personagemId          Int
   tecnicaAmaldicoada    String
-  descricaoTecnica      String
+  descricaoTecnica      String?
   habilidadesConhecidas String
   habilidadesMaximas    String
   atributoPrincipal     String
@@ -160,7 +160,7 @@ model HabilidadesDeTecnica {
   personagemId        Int
   nivel               Int
   nome                String
-  descricao           String
+  descricao           String?
   alcance             String
   conjuracao          String
   alvo                String
@@ -187,9 +187,9 @@ model DetalhesInvocacao {
   personagem          Personagem @relation(fields: [personagemId], references: [personagemId])
   personagemId        Int
   invocacaoId         Int
-  nome                String
-  tipo                String
-  bonus               Int
-  atributo            String
-  descricao           String
+  nome                String?
+  tipo                String?
+  bonus               Int?
+  atributo            String?
+  descricao           String?
 }
