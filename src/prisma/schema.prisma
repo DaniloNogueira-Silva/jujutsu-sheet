@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  senha       String
+  personagens Personagem[]
+}
+
+model Personagem {
+  personagemId         Int                    @id @default(autoincrement())
+  nome                 String
+  nivel                Int
+  maestria             String
+  origem               String
+  especializacao       String
+  tecnica              String
+  jogador              User                   @relation(fields: [userId], references: [id])
+  userId               Int
+  campanha             String
+  grau                 Int
+  atributos            Atributos[]
+  pericias             Pericias[]
+  status               Status[]
+  classeDeArmadura     ClasseDeArmadura?
+  habilidades          Habilidade[]
+  talentos             Talento[]
+  inventario           Inventario[]
+  dadosPersonagem      DadosPersonagem?
+  perfilAmaldicoado    PerfilAmaldicoado?
+  HabilidadesDeTecnica HabilidadesDeTecnica[]
+  Invocacao            Invocacao[]
+  DetalhesInvocacao    DetalhesInvocacao[]
+}
+
+model Atributos {
+  atributoId               Int        @id @default(autoincrement())
+  personagem               Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId             Int
+  forca                    Int
+  forca_modificador        Int
+  destreza                 Int
+  destreza_modificador     Int
+  constituicao             Int
+  constituicao_modificador Int
+  inteligencia             Int
+  inteligencia_modificador Int
+  sabedoria                Int
+  sabedoria_modificador    Int
+  carisma                  Int
+  carisma_modificador      Int
+}
+
+model Pericias {
+  periciaId      Int        @id @default(autoincrement())
+  personagem     Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId   Int
+  nome           String
+  atributo       String
+  maestria       Boolean
+  especializacao String
+  total          Int
+}
+
+model Status {
+  statusId     Int        @id @default(autoincrement())
+  personagem   Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId Int
+  maximos      Int
+  atuais       Int
+  temporarios  Int
+}
+
+model ClasseDeArmadura {
+  armaduraId Int        @id @default(autoincrement())
+  personagem Personagem @relation(fields: [armaduraId], references: [personagemId])
+  total      Int
+  armadura   Int
+  escudo     Int
+  destreza   Int
+  outros     Int
+}
+
+model Habilidade {
+  habilidadeId Int        @id @default(autoincrement())
+  personagem   Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId Int
+  nome         String
+  tipo         String
+  sub_tipo     String
+  atual        Int
+  max          Int
+  custo        Int
+}
+
+model Talento {
+  talentoId    Int        @id @default(autoincrement())
+  personagem   Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId Int
+  nome         String
+  atual        Int
+  maximos      Int
+  custo        Int
+}
+
+model Inventario {
+  inventarioId Int        @id @default(autoincrement())
+  personagem   Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId Int
+  nome         String
+  quantidade   Int
+  espacos      Int
+  custo        Int
+}
+
+model DadosPersonagem {
+  dadosPersonagemId     Int        @id @default(autoincrement())
+  personagem            Personagem @relation(fields: [dadosPersonagemId], references: [personagemId])
+  personagemId          Int
+  aparencia             String
+  idade                 Int
+  altura                Float
+  peso                  Float
+  genero                String
+  cabelos               String
+  olhos                 String
+  pele                  String
+  aura                  String
+  roupas                String
+  tamanho               String
+  marcas                String
+  tracosDePersonalidade String
+  ideais                String
+  ligacoes              String
+  defeitos              String
+}
+
+model PerfilAmaldicoado {
+  perfilAmaldicoadoId   Int        @id @default(autoincrement())
+  personagem            Personagem @relation(fields: [perfilAmaldicoadoId], references: [personagemId])
+  personagemId          Int
+  tecnicaAmaldicoada    String
+  descricaoTecnica      String
+  habilidadesConhecidas String
+  habilidadesMaximas    String
+  atributoPrincipal     String
+}
+
+model HabilidadesDeTecnica {
+  habilidadeTecnicaId Int        @id @default(autoincrement())
+  personagem          Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId        Int
+  nivel               Int
+  nome                String
+  descricao           String
+  alcance             String
+  conjuracao          String
+  alvo                String
+  duracao             String
+}
+
+model Invocacao {
+  invocacaoId  Int        @id @default(autoincrement())
+  personagem   Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId Int
+  vida         Int
+  ca           Int
+  movimento    Int
+  forca        Int
+  destreza     Int
+  constituicao Int
+  inteligencia Int
+  sabedoria    Int
+  carisma      Int
+}
+
+model DetalhesInvocacao {
+  detalhesInvocacaoId Int        @id @default(autoincrement())
+  personagem          Personagem @relation(fields: [personagemId], references: [personagemId])
+  personagemId        Int
+  invocacaoId         Int
+  nome                String
+  tipo                String
+  bonus               Int
+  atributo            String
+  descricao           String
+}
